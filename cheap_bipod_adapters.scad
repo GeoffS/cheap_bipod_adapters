@@ -27,8 +27,8 @@ mountZ = 23; //70;
 mountCZ = 4;
 
 mountClampX = 2.5 + recessAdjX;
-mountClampY = 30; //17.5; //8; //7;
-mountClampZ = mountZ + 2 ; //11;
+mountClampY = 17.5; //8; //7;
+mountClampZ = mountZ + 2; //11;
 
 mountClampCtrPosZ = mountZ/2; //(mountZ-mountClampZ)/2;
 
@@ -58,7 +58,7 @@ module mountExterior()
 	difference()
 	{
 		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
-		simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ);
+		simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
 
 		// Temporary top trim:
 		tcu([-400+2, -200, -200], 400);
@@ -66,8 +66,8 @@ module mountExterior()
 		attachmentXform()
 		{
 			// Mount clamp recess:
-			// tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
-			tcu([-mountClampX+2, -200, -200], 400);
+			tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
+			// tcu([-mountClampX+2, -200, -200], 400);
 
 			// Ring recess:
 			translate([ringOD/2-ringRecessX+ringShiftX, 0, 0]) 
