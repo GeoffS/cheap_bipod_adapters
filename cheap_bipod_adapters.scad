@@ -20,15 +20,15 @@ include <../OpenSCAD_Lib/torus.scad>
 
 layerThickness = 0.2;
 
-recessAdjX = 5;
+recessAdjX = 2;
 
 mountOD = 37.5;
 mountZ = 23; //70;
 mountCZ = 4;
 
 mountClampX = 2.5 + recessAdjX;
-mountClampY = 17.5; //8; //7;
-mountClampZ = 11;
+mountClampY = 30; //17.5; //8; //7;
+mountClampZ = mountZ + 2 ; //11;
 
 mountClampCtrPosZ = mountZ/2; //(mountZ-mountClampZ)/2;
 
@@ -37,11 +37,13 @@ ringScrewHoleX = 19;
 ringScrewNutDia = 6.4;
 ringOD = 13.3;
 ringBaseOD = 7.5;
-ringBaseExtraX = 1.3;
+ringBaseExtraX = 0.0; //1.3;
 ringX = 3.5;
 ringRecessX = 5 + recessAdjX;
 
 ringBaseX = -ringOD/2-ringBaseExtraX;
+
+ringShiftX = -1;
 
 module itemModule()
 {
@@ -55,21 +57,22 @@ module mountExterior()
 {
 	difference()
 	{
-		scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
+		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
+		simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ);
 
 		// Temporary top trim:
-		tcu([-400, -200, -200], 400);
+		tcu([-400+2, -200, -200], 400);
 
 		attachmentXform()
 		{
 			// Mount clamp recess:
-			tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
-			//tcu([-mountClampX, -200, -200], 400);
+			// tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
+			tcu([-mountClampX+2, -200, -200], 400);
 
 			// Ring recess:
-			translate([ringOD/2-ringRecessX, 0, 0]) 
+			translate([ringOD/2-ringRecessX+ringShiftX, 0, 0]) 
 			{
-				rotate([90,0,0]) hull() torus3(outsideDiameter=ringOD, circleDiameter=ringX);
+				translate([-0.2,0,0]) rotate([90,0,0]) hull() torus3(outsideDiameter=ringOD, circleDiameter=ringX);
 				translate([ringBaseX,0,0]) rotate([0,90,0]) cylinder(d=ringBaseOD, h=20);
 			}
 
@@ -78,24 +81,29 @@ module mountExterior()
 
 			// Nut recess:
 			holeZ = 30;
-			translate([-ringScrewHoleX+4-holeZ, 0, 0]) rotate([0,90,0]) 
+			translate([-ringScrewHoleX+9-holeZ+ringShiftX, 0, 0]) rotate([0,90,0])
 			{
 				// Nut recess:
-				cylinder(d=ringScrewNutDia, h=holeZ, $fn=6);
+				nutRecessZ = 4;
+				translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
 				// Access recess:
-				tcy([0,0,-5], d=ringScrewNutDia+1, h=holeZ);
+				hull()
+				{
+					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
+					tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
+				}
 			}
 		}
 	}
 
-	// Sacrificial layers:
-	attachmentXform() 
-	{
-		// Bottom of nut recess:
-		translate([ringOD/2-ringRecessX+ringBaseX-layerThickness,0,0]) rotate([0,90,0]) cylinder(d=ringScrewHoleDia+2, h=layerThickness);
-		// Top of clamp recess:
-		translate([-mountClampX-layerThickness, 0, 0]) rotate([0,90,0]) cylinder(d=12, h=layerThickness);
-	}
+	// // Sacrificial layers:
+	// attachmentXform() 
+	// {
+	// 	// Bottom of nut recess:
+	// 	translate([ringOD/2-ringRecessX+ringBaseX-layerThickness,0,0]) rotate([0,90,0]) cylinder(d=ringScrewHoleDia+2, h=layerThickness);
+	// 	// Top of clamp recess:
+	// 	translate([-mountClampX-layerThickness, 0, 0]) rotate([0,90,0]) cylinder(d=12, h=layerThickness);
+	// }
 
 }
 
@@ -116,5 +124,5 @@ if(developmentRender)
 }
 else
 {
-	rotate([0,90,0]) itemModule();
+	itemModule();
 }
