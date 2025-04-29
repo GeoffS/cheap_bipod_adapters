@@ -24,7 +24,7 @@ recessAdjX = 2;
 
 mountOD = 40.0; //37.5;
 mountZ = 23; //70;
-mountCZ = 4;
+mountCZ = 3.04;
 
 mountClampX = 2.5 + recessAdjX;
 mountClampY = 17.5; //8; //7;
@@ -60,8 +60,8 @@ module mountExterior()
 		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
 		translate([1,0,0]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
 
-		// Temporary top trim:
-		tcu([-400+2, -200, -200], 400);
+		// Test-print top trim:
+		tcu([-400+4, -200, -200], 400);
 
 		attachmentXform()
 		{
@@ -85,12 +85,17 @@ module mountExterior()
 			{
 				// Nut recess:
 				nutRecessZ = 4;
-				translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
+				// translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
+				testPrintNutAccessDia = 14;
+				translate([0,0,holeZ-nutRecessZ]) cylinder(d=testPrintNutAccessDia, h=nutRecessZ, $fn=6);
+
 				// Access recess:
 				hull()
 				{
-					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
-					tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
+					// translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
+					// tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
+					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=testPrintNutAccessDia, h=1, $fn=6);
+					tcy([0,0,-10], d=testPrintNutAccessDia, h=holeZ, $fn=6);
 				}
 			}
 		}
@@ -115,7 +120,7 @@ module attachmentXform()
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 }
 
 if(developmentRender)
