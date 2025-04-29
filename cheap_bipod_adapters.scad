@@ -69,16 +69,17 @@ module mountExterior()
 
 			// Barrel groove:
 			barrelGrooveDia = 40;
-			translate([-mountOD/2, 0, -100]) difference()
+			translate([0, 0, -100]) difference()
 			{
-				cylinder(d=barrelGrooveDia, h=400, $fn=4);
+				// cylinder(d=barrelGrooveDia, h=400, $fn=4);
+				hull() doubleY() rotate([0,0,-36]) tcu([-400, 0, 0], [400, nothing, 400]);
 
 				// Take the sharp edge off the bottom of the barrel-grove:
-				tcu([barrelGrooveDia/2 - 1.5, -200, -200], 400);
+				tcu([-1.5, -200, -200], 400);
 			}
 
 			// Take the sharp edge off the top of the barrel-grove:
-			tcu([-400-barrelGrooveDia/2 + 6.5, -200, -200], 400);
+			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
 		}
 
 		// Test-print top trim:
