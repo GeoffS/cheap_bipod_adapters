@@ -82,9 +82,9 @@ module mountExterior()
 			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
 
 			// Create the zip-tie slots:
-			translate([-7, 0, mountClampCtrPosZ])
+			translate([-10, 0, mountClampCtrPosZ])
 			{
-				 #torusSlot(outsideDiameter=35, circleDiameter=4);
+				 #torusSlot(outsideDiameter=35, insideDiameter=10, circleDiameter=4);
 			}
 		}
 
@@ -133,23 +133,25 @@ module mountExterior()
 	}
 }
 
-module torusSlot(outsideDiameter, circleDiameter)
-{
-	echo("torusSlot outsideDiameter, circleDiameter", outsideDiameter, circleDiameter);
-  	circleRadius = circleDiameter/2;
-	translation = outsideDiameter/2-circleRadius;
-	echo("torusSlot radius, translation", circleRadius, translation);
-  	rotate_extrude(convexity = 4)
-		translate([translation, 0, 0]) projection() translate([0,0,-0.5]) hull()
-		{
-			cylinder(r = circleRadius, h=1);
-			translate([-10,0,0]) cylinder(r = circleRadius, h=1);
-		}
-}
-
 module attachmentXform()
 {
 	translate([mountOD/2, 0, mountClampCtrPosZ]) children();
+}
+
+module torusSlot(outsideDiameter, insideDiameter, circleDiameter)
+{
+	echo("torusSlot outsideDiameter, circleDiameter", outsideDiameter, insideDiameter, circleDiameter);
+  	circleRadius = circleDiameter/2;
+	outsideTranslation = outsideDiameter/2-circleRadius;
+	insideoutsideTranslation = outsideDiameter/2 - insideDiameter/2 - circleDiameter;
+	echo("torusSlot radius, outsideTranslation, insideoutsideTranslation", circleRadius, outsideTranslation, insideoutsideTranslation);
+
+  	rotate_extrude(convexity = 4)
+		translate([outsideTranslation, 0, 0]) projection() translate([0,0,-0.5]) hull()
+		{
+			cylinder(r = circleRadius, h=1);
+			translate([-insideoutsideTranslation,0,0]) cylinder(r = circleRadius, h=1);
+		}
 }
 
 module clip(d=0)
@@ -161,6 +163,8 @@ module clip(d=0)
 if(developmentRender)
 {
 	display() itemModule();
+
+	//display() translate([0,0,-2]) torusSlot(outsideDiameter=40, insideDiameter=10, circleDiameter=4);
 }
 else
 {
