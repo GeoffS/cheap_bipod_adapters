@@ -22,9 +22,10 @@ layerThickness = 0.2;
 
 recessAdjX = 2;
 
-mountOD = 41.0; //37.5;
-mountZ = 23; //70;
-mountCZ = 3.04;
+mountOD = 41.0;
+mountCZ = 3.955;
+mountZ = 63 + 2*mountCZ;
+echo(str("mountZ = ", mountZ));
 
 mountClampX = 2.5 + recessAdjX;
 mountClampY = 17.5; //8; //7;
@@ -65,13 +66,12 @@ module mountExterior()
 		tcu([mountOffsetX+mountOD/2-2.5, -200, -200], 400);
 
 		// Test-print top trim:
-		tcu([-400+4, -200, -200], 400);
+		// tcu([-400+4, -200, -200], 400);
 
 		attachmentXform()
 		{
 			// Mount clamp recess:
 			tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
-			// tcu([-mountClampX+2, -200, -200], 400);
 
 			// Clamp crosspiece recess:
 			clampCrosspieceRecessDia = 6;
@@ -93,17 +93,17 @@ module mountExterior()
 			{
 				// Nut recess:
 				nutRecessZ = 4;
-				// translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
-				testPrintNutAccessDia = 14;
-				translate([0,0,holeZ-nutRecessZ]) cylinder(d=testPrintNutAccessDia, h=nutRecessZ, $fn=6);
+				translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
+				// testPrintNutAccessDia = 14;
+				// translate([0,0,holeZ-nutRecessZ]) cylinder(d=testPrintNutAccessDia, h=nutRecessZ, $fn=6);
 
 				// Access recess:
 				hull()
 				{
-					// translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
-					// tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
-					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=testPrintNutAccessDia, h=1, $fn=6);
-					tcy([0,0,-10], d=testPrintNutAccessDia, h=holeZ, $fn=6);
+					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
+					tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
+					// translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=testPrintNutAccessDia, h=1, $fn=6);
+					// tcy([0,0,-10], d=testPrintNutAccessDia, h=holeZ, $fn=6);
 				}
 			}
 		}
@@ -128,7 +128,7 @@ module attachmentXform()
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 }
 
 if(developmentRender)
