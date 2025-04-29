@@ -60,10 +60,26 @@ module mountExterior()
 	{
 		mountOffsetX = 2;
 		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
-		translate([mountOffsetX,0,0]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
+		translate([mountOffsetX,0,0]) difference()
+		{
+			simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
 
-		// Take the sharp edge off the clamp recess:
-		tcu([mountOffsetX+mountOD/2-2.5, -200, -200], 400);
+			// Take the sharp edge off the clamp recess:
+			tcu([mountOD/2-2.5, -200, -200], 400);
+
+			// Barrel groove:
+			barrelGrooveDia = 40;
+			translate([-mountOD/2, 0, -100]) difference()
+			{
+				cylinder(d=barrelGrooveDia, h=400, $fn=4);
+
+				// Take the sharp edge off the bottom of the barrel-grove:
+				tcu([barrelGrooveDia/2 - 1.5, -200, -200], 400);
+			}
+
+			// Take the sharp edge off the top of the barrel-grove:
+			tcu([-400-barrelGrooveDia/2 + 6.5, -200, -200], 400);
+		}
 
 		// Test-print top trim:
 		// tcu([-400+4, -200, -200], 400);
