@@ -84,7 +84,7 @@ module mountExterior()
 			// Create the zip-tie slots:
 			translate([-7, 0, mountClampCtrPosZ])
 			{
-				 #torus3a(outsideDiameter=35, circleDiameter=4);
+				 #torusSlot(outsideDiameter=35, circleDiameter=4);
 			}
 		}
 
@@ -140,7 +140,11 @@ module torusSlot(outsideDiameter, circleDiameter)
 	translation = outsideDiameter/2-circleRadius;
 	echo("torusSlot radius, translation", circleRadius, translation);
   	rotate_extrude(convexity = 4)
-    translate([translation, 0, 0]) circle(r = circleRadius);
+		translate([translation, 0, 0]) projection() translate([0,0,-0.5]) hull()
+		{
+			cylinder(r = circleRadius, h=1);
+			translate([-10,0,0]) cylinder(r = circleRadius, h=1);
+		}
 }
 
 module attachmentXform()
