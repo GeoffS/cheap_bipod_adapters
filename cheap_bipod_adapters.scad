@@ -131,16 +131,6 @@ module mountExterior()
 			}
 		}
 	}
-
-	// // Sacrificial layers:
-	// attachmentXform() 
-	// {
-	// 	// Bottom of nut recess:
-	// 	translate([ringOD/2-ringRecessX+ringBaseX-layerThickness,0,0]) rotate([0,90,0]) cylinder(d=ringScrewHoleDia+2, h=layerThickness);
-	// 	// Top of clamp recess:
-	// 	translate([-mountClampX-layerThickness, 0, 0]) rotate([0,90,0]) cylinder(d=12, h=layerThickness);
-	// }
-
 }
 
 module torusSlot(outsideDiameter, circleDiameter)
