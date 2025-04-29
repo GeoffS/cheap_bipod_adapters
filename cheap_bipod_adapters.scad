@@ -54,6 +54,12 @@ module itemModule()
 	}
 }
 
+module zipTieSlotTrim()
+{
+	a = -30;
+	doubleY() rotate([0,0,a]) tcu([0, 0, -200], 400);
+}
+
 module mountExterior()
 {
 	difference()
@@ -82,9 +88,18 @@ module mountExterior()
 			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
 
 			// Create the zip-tie slots:
-			translate([-10, 0, mountClampCtrPosZ])
+			translate([-10, 0, mountClampCtrPosZ]) 
 			{
-				 #torusSlot(outsideDiameter=35, insideDiameter=10, circleDiameter=4);
+				difference()
+				{
+					#torusSlot(outsideDiameter=35, insideDiameter=10, circleDiameter=4);
+				 	zipTieSlotTrim();
+				}
+				intersection()
+				{
+					torus3a(outsideDiameter=35, circleDiameter=4);
+					zipTieSlotTrim();
+				}
 			}
 		}
 
