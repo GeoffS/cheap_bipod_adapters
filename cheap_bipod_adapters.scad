@@ -22,7 +22,7 @@ layerThickness = 0.2;
 
 recessAdjX = 2;
 
-mountOD = 40.0; //37.5;
+mountOD = 41.0; //37.5;
 mountZ = 23; //70;
 mountCZ = 3.04;
 
@@ -57,8 +57,12 @@ module mountExterior()
 {
 	difference()
 	{
+		mountOffsetX = 2;
 		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
-		translate([1,0,0]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
+		translate([mountOffsetX,0,0]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
+
+		// Take the sharp edge off the clamp recess:
+		tcu([mountOffsetX+mountOD/2-2.5, -200, -200], 400);
 
 		// Test-print top trim:
 		tcu([-400+4, -200, -200], 400);
@@ -118,13 +122,13 @@ module mountExterior()
 
 module attachmentXform()
 {
-	translate([mountOD/2 ,0, mountClampCtrPosZ]) children();
+	translate([mountOD/2, 0, mountClampCtrPosZ]) children();
 }
 
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 }
 
 if(developmentRender)
