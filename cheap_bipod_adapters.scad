@@ -80,6 +80,12 @@ module mountExterior()
 
 			// Take the sharp edge off the top of the barrel-grove:
 			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
+
+			// Create the zip-tie slots:
+			translate([-7, 0, mountClampCtrPosZ])
+			{
+				 #torus3a(outsideDiameter=35, circleDiameter=4);
+			}
 		}
 
 		// Test-print top trim:
@@ -137,6 +143,16 @@ module mountExterior()
 
 }
 
+module torusSlot(outsideDiameter, circleDiameter)
+{
+	echo("torusSlot outsideDiameter, circleDiameter", outsideDiameter, circleDiameter);
+  	circleRadius = circleDiameter/2;
+	translation = outsideDiameter/2-circleRadius;
+	echo("torusSlot radius, translation", circleRadius, translation);
+  	rotate_extrude(convexity = 4)
+    translate([translation, 0, 0]) circle(r = circleRadius);
+}
+
 module attachmentXform()
 {
 	translate([mountOD/2, 0, mountClampCtrPosZ]) children();
@@ -145,7 +161,7 @@ module attachmentXform()
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 }
 
 if(developmentRender)
