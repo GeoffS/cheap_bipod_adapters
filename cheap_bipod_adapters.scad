@@ -69,6 +69,10 @@ module mountExterior()
 			tcu([-mountClampX, -mountClampY/2, -mountClampZ/2], [mountClampX+10, mountClampY, mountClampZ]);
 			// tcu([-mountClampX+2, -200, -200], 400);
 
+			// Clamp crosspiece recess:
+			clampCrosspieceRecessDia = 6;
+			translate([-clampCrosspieceRecessDia/2,0,0]) rotate([90,0,0]) rotate([0,0,22.5]) tcy([0,0,-mountClampY/2], d=clampCrosspieceRecessDia, h=mountClampY, $fn=8);
+
 			// Ring recess:
 			translate([ringOD/2-ringRecessX+ringShiftX, 0, 0]) 
 			{
