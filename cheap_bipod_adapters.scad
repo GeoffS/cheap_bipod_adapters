@@ -54,10 +54,9 @@ module itemModule()
 	}
 }
 
-module zipTieSlotTrim()
+module zipTieSlotTrim(a)
 {
-	a = -30;
-	doubleY() rotate([0,0,a]) tcu([0, 0, -200], 400);
+	doubleY() rotate([0,0,-a]) tcu([0, 0, -200], 400);
 }
 
 module mountExterior()
@@ -93,15 +92,23 @@ module mountExterior()
 			{
 				zipTieDia = 20;
 				zipTieChannelDia = 4;
-				difference()
+				offsetIncrement = 1;
+				startingAngle = 30;
+				angleIncrement = 10;
+				for (i = [0:1:3]) 
 				{
-					torusSlot(insideDiameter=zipTieDia, outsideShift=0, circleDiameter=zipTieChannelDia);
-				 	zipTieSlotTrim();
+					echo(i);
+				  	difference()
+					{
+						torusSlot(insideDiameter=zipTieDia, outsideShift=offsetIncrement*i, circleDiameter=zipTieChannelDia);
+						zipTieSlotTrim(startingAngle-angleIncrement*i);
+					}
 				}
+				
 				intersection()
 				{
 					torus3a(outsideDiameter=zipTieDia, circleDiameter=zipTieChannelDia);
-					zipTieSlotTrim();
+					zipTieSlotTrim(startingAngle);
 				}
 			}
 		}
@@ -161,7 +168,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 	echo("torusSlot insideDiameter, outsideShift, circleDiameter", insideDiameter, outsideShift, circleDiameter);
   	circleRadius = circleDiameter/2;
 	
-  	#rotate_extrude(convexity = 4)
+  	rotate_extrude(convexity = 4)
 		translate([insideDiameter/2-circleRadius, 0, 0]) projection() translate([0,0,-0.5]) hull()
 		{
 			cylinder(r = circleRadius, h=1);
