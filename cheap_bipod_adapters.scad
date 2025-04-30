@@ -92,17 +92,11 @@ module mountExterior()
 			{
 				zipTieDia = 20;
 				zipTieChannelDia = 4;
-				offsetIncrement = 1;
 				startingAngle = 30;
-				angleIncrement = 10;
-				for (i = [0:1:3]) 
+				difference()
 				{
-					echo(i);
-				  	difference()
-					{
-						torusSlot(insideDiameter=zipTieDia, outsideShift=offsetIncrement*i, circleDiameter=zipTieChannelDia);
-						zipTieSlotTrim(startingAngle-angleIncrement*i);
-					}
+					torusSlot(insideDiameter=zipTieDia, outsideShift=5, circleDiameter=zipTieChannelDia);
+					zipTieSlotTrim(startingAngle);
 				}
 				
 				intersection()
