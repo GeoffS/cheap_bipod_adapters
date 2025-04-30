@@ -88,16 +88,19 @@ module mountExterior()
 			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
 
 			// Create the zip-tie slots:
-			translate([-10, 0, mountClampCtrPosZ]) 
+			// translate([-5, 0, mountClampCtrPosZ]) doubleZ() translate([0, 0, mountClampZ/4]) 
+			translate([0, 0, mountClampCtrPosZ])
 			{
+				zipTieDia = 20;
+				zipTieChannelDia = 4;
 				difference()
 				{
-					#torusSlot(outsideDiameter=35, insideDiameter=10, circleDiameter=4);
+					torusSlot(insideDiameter=zipTieDia, outsideShift=0, circleDiameter=zipTieChannelDia);
 				 	zipTieSlotTrim();
 				}
 				intersection()
 				{
-					torus3a(outsideDiameter=35, circleDiameter=4);
+					torus3a(outsideDiameter=zipTieDia, circleDiameter=zipTieChannelDia);
 					zipTieSlotTrim();
 				}
 			}
@@ -153,31 +156,31 @@ module attachmentXform()
 	translate([mountOD/2, 0, mountClampCtrPosZ]) children();
 }
 
-module torusSlot(outsideDiameter, insideDiameter, circleDiameter)
+module torusSlot(insideDiameter, outsideShift, circleDiameter)
 {
-	echo("torusSlot outsideDiameter, circleDiameter", outsideDiameter, insideDiameter, circleDiameter);
+	echo("torusSlot insideDiameter, outsideShift, circleDiameter", insideDiameter, outsideShift, circleDiameter);
   	circleRadius = circleDiameter/2;
-	outsideTranslation = outsideDiameter/2-circleRadius;
-	insideoutsideTranslation = outsideDiameter/2 - insideDiameter/2 - circleDiameter;
-	echo("torusSlot radius, outsideTranslation, insideoutsideTranslation", circleRadius, outsideTranslation, insideoutsideTranslation);
-
-  	rotate_extrude(convexity = 4)
-		translate([outsideTranslation, 0, 0]) projection() translate([0,0,-0.5]) hull()
+	
+  	#rotate_extrude(convexity = 4)
+		translate([insideDiameter/2-circleRadius, 0, 0]) projection() translate([0,0,-0.5]) hull()
 		{
 			cylinder(r = circleRadius, h=1);
-			translate([-insideoutsideTranslation,0,0]) cylinder(r = circleRadius, h=1);
+			translate([outsideShift,0,0]) cylinder(r = circleRadius, h=1);
 		}
 }
 
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	tcu([-200, -200, -nothing], 400);
+	
+	// tcu([-200, -200, mountClampCtrPosZ+mountClampZ/4], 400);
 }
 
 if(developmentRender)
 {
-	display() itemModule();
+	display() translate([0,0,-mountClampCtrPosZ]) itemModule();
 
 	//display() translate([0,0,-2]) torusSlot(outsideDiameter=40, insideDiameter=10, circleDiameter=4);
 }
