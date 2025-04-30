@@ -46,6 +46,10 @@ ringBaseX = -ringOD/2-ringBaseExtraX;
 
 ringShiftX = -2.5;
 
+zipTieDia = 20;
+zipTieChannelDia = 5;
+startingAngle = 4.5;
+
 module itemModule()
 {
 	difference()
@@ -64,7 +68,6 @@ module mountExterior()
 	difference()
 	{
 		mountOffsetX = 2;
-		//scale([1.0, 1.4, 1.0]) rotate([0,0,22.5]) simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz =mountCZ, $fn=8);
 		translate([mountOffsetX,0,0]) difference()
 		{
 			simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
@@ -87,22 +90,15 @@ module mountExterior()
 			tcu([-400-barrelGrooveDia/2 +4.3, -200, -200], 400);
 
 			// Create the zip-tie slots:
-			// translate([-5, 0, mountClampCtrPosZ]) doubleZ() translate([0, 0, mountClampZ/4]) 
-			translate([0, 0, mountClampCtrPosZ])
+			translate([0, 0, mountClampCtrPosZ]) doubleZ() translate([0, 0, mountClampZ/4]) 
 			{
-				zipTieDia = 20;
-				zipTieChannelDia = 4;
-				startingAngle = 30;
-				difference()
+				torus3a(outsideDiameter=zipTieDia, circleDiameter=zipTieChannelDia);
+
+				doubleY()
 				{
-					torusSlot(insideDiameter=zipTieDia, outsideShift=5, circleDiameter=zipTieChannelDia);
-					zipTieSlotTrim(startingAngle);
-				}
-				
-				intersection()
-				{
-					torus3a(outsideDiameter=zipTieDia, circleDiameter=zipTieChannelDia);
-					zipTieSlotTrim(startingAngle);
+					slotTube(startingAngle=startingAngle, angleIncrement=0, shift=0);
+					slotTube(startingAngle=startingAngle, angleIncrement=-20, shift=4);
+					slotTube(startingAngle=startingAngle, angleIncrement=-47, shift=5);
 				}
 			}
 		}
@@ -152,6 +148,22 @@ module mountExterior()
 	}
 }
 
+module slotTube(startingAngle, angleIncrement, shift)
+{
+	hull()
+	{
+		rotate([0,0,startingAngle+0.05]) translate([0,-zipTieDia/2+zipTieChannelDia/2,0]) rotate([0,-90,0])
+		{
+			translate([0,0,shift]) cylinder(d=zipTieChannelDia, h=100);
+		}
+
+		rotate([0,0,startingAngle+angleIncrement]) translate([0,-zipTieDia/2+zipTieChannelDia/2,0]) rotate([0,-90,0])
+		{
+			cylinder(d=zipTieChannelDia, h=100);
+		}
+	}
+}
+
 module attachmentXform()
 {
 	translate([mountOD/2, 0, mountClampCtrPosZ]) children();
@@ -174,14 +186,14 @@ module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
-	tcu([-200, -200, -nothing], 400);
+	// tcu([-200, -200, -nothing], 400);
 	
 	// tcu([-200, -200, mountClampCtrPosZ+mountClampZ/4], 400);
 }
 
 if(developmentRender)
 {
-	display() translate([0,0,-mountClampCtrPosZ]) itemModule();
+	display() itemModule();
 
 	//display() translate([0,0,-2]) torusSlot(outsideDiameter=40, insideDiameter=10, circleDiameter=4);
 }
