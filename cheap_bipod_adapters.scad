@@ -181,16 +181,32 @@ module clip(d=0)
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
 	
-	// tcu([-200, -200, mountClampCtrPosZ+mountClampZ/4], 400);
+	// tcu([-200, -200, mountClampCtrPosZ+mountClampZ/4-d], 400);
 }
 
 if(developmentRender)
 {
 	display() itemModule();
+	// displayGhost() Crossman2240XL_Receiver_Tube();
+	displayGhost() MaxBarrelDia();
 
 	//display() translate([0,0,-2]) torusSlot(outsideDiameter=40, insideDiameter=10, circleDiameter=4);
 }
 else
 {
 	itemModule();
+}
+
+barrelOffsetZ = 20;
+barrelZ = mountZ + 2*barrelOffsetZ;
+module Crossman2240XL_Receiver_Tube()
+{
+	dia = 22.4;
+	%tcy([-17, 0, -barrelOffsetZ], d=dia, h=barrelZ);
+}
+
+module MaxBarrelDia()
+{
+	dia = 19;
+	tcy([-14.2, 0, -barrelOffsetZ], d=dia, h=barrelZ);
 }
