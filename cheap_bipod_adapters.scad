@@ -139,7 +139,7 @@ module mountExterior()
 
 			// Nut driver/socket recess:
 			ringScrewHoleZ = 30;
-			translate([-ringScrewHoleX+9-ringScrewHoleZ+ringShiftX, 0, 0]) rotate([0,90,0]) translate([0,0,ringScrewHoleZ-20]) hull()
+			translate([-ringScrewHoleX+7-ringScrewHoleZ+ringShiftX, 0, 0]) rotate([0,90,0]) translate([0,0,ringScrewHoleZ-20]) hull()
 			{
 				cylinder(d=m3NutDriverOD, h=20);
 				x = m3NutDriverOD + 0.5;
@@ -188,7 +188,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
 	
