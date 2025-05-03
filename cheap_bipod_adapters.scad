@@ -35,7 +35,8 @@ mountClampCtrPosZ = mountZ/2; //(mountZ-mountClampZ)/2;
 
 ringScrewHoleDia = 3.4;
 ringScrewHoleX = 19;
-ringScrewNutDia = 6.4;
+m3NutDriverOD = 12;
+// ringScrewNutDia = 6.4;
 ringOD = 13.3;
 ringBaseOD = 7.5;
 ringBaseExtraX = 0.0; //1.3;
@@ -125,25 +126,9 @@ module mountExterior()
 			// Screw hole:
 			translate([-ringScrewHoleX,0,0]) rotate([0,90,0]) cylinder(d=ringScrewHoleDia, h=20);
 
-			// Nut recess:
+			// Nut driver/socket recess:
 			holeZ = 30;
-			translate([-ringScrewHoleX+9-holeZ+ringShiftX, 0, 0]) rotate([0,90,0])
-			{
-				// Nut recess:
-				nutRecessZ = 4;
-				translate([0,0,holeZ-nutRecessZ]) cylinder(d=ringScrewNutDia, h=nutRecessZ, $fn=6);
-				// testPrintNutAccessDia = 14;
-				// translate([0,0,holeZ-nutRecessZ]) cylinder(d=testPrintNutAccessDia, h=nutRecessZ, $fn=6);
-
-				// Access recess:
-				hull()
-				{
-					translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=ringScrewNutDia, h=1, $fn=6);
-					tcy([0,0,-10], d=ringScrewNutDia+1, h=holeZ);
-					// translate([0,0,holeZ-nutRecessZ-1+nothing]) cylinder(d=testPrintNutAccessDia, h=1, $fn=6);
-					// tcy([0,0,-10], d=testPrintNutAccessDia, h=holeZ, $fn=6);
-				}
-			}
+			translate([-ringScrewHoleX+9-holeZ+ringShiftX, 0, 0]) rotate([0,90,0]) translate([0,0,holeZ-20]) cylinder(d=m3NutDriverOD, h=20);
 		}
 	}
 }
@@ -185,7 +170,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 module clip(d=0)
 {
 	//tc([-200, -400-d, -10], 400);
-	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
 	
 	// tcu([-200, -200, mountClampCtrPosZ+mountClampZ/4], 400);
