@@ -118,12 +118,12 @@ module mountExterior()
 			//    Just the center:
 			tx = nothing;
 			y = mountClampY;
-			translate([-tx-mountClampX, -y/2, 0]) hull()
+			#translate([-tx-mountClampX, -y/2, 0]) hull()
 			{
 				x = 20;
 				z = 20;
 				tcu([0, 0, -z/2], [tx, y, z]);
-				tcu([x, 0, -(z+x)/2], [tx, y, z+x]);
+				tcu([x, 0, -(z/2+x)], [tx, y, z+2*x]);
 			}
 
 			// Clamp crosspiece recess:
@@ -190,7 +190,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 
 module clip(d=0)
 {
-	// tc([-200, -400-d, -10], 400);
+	tc([-200, -400-d, -10], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
