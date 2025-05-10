@@ -77,7 +77,7 @@ module mountExterior()
 			simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
 
 			// Take the sharp edge off the clamp recess:
-			tcu([mountOD/2-2.5, -200, -200], 400);
+			// tcu([mountOD/2-2.2, -200, -200], 400);
 
 			// Barrel groove:
 			barrelGrooveDia = 40;
@@ -118,12 +118,13 @@ module mountExterior()
 			//    Just the center:
 			tx = nothing;
 			y = mountClampY;
-			#translate([-tx-mountClampX, -y/2, 0]) hull()
+			translate([-tx-mountClampX, -y/2, 0]) hull()
 			{
 				x = 20;
-				z = 20;
+				z = 18;
 				tcu([0, 0, -z/2], [tx, y, z]);
-				tcu([x, 0, -(z/2+x)], [tx, y, z+2*x]);
+				x2 = 2*x;
+				tcu([x, -x2/2, -(z+x2)/2], [tx, y+x2, z+x2]);
 			}
 
 			// Clamp crosspiece recess:
@@ -190,7 +191,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 
 module clip(d=0)
 {
-	tc([-200, -400-d, -10], 400);
+	// tc([-200, -400-d, -10], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
