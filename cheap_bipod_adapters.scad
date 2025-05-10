@@ -22,8 +22,8 @@ layerThickness = 0.2;
 
 recessAdjX = 2;
 
-mountClampOffsetFromFrontZ = 33;
-mountClampOffsetFromRearZ = 26;
+mountClampOffsetFromFrontZ = 32;
+mountClampOffsetFromRearZ = 25;
 
 mountOD = 41.0;
 mountCZ = 3.955;
@@ -34,7 +34,7 @@ mountClampX = 2.5 + recessAdjX;
 mountClampY = 17.5; //8; //7;
 mountClampZ = mountZ + 2; //11;
 
-mountClampCtrPosZ = mountClampOffsetFromRearZ; //mountZ/2; //(mountZ-mountClampZ)/2;
+mountClampCtrPosZ = mountClampOffsetFromRearZ + mountCZ; //mountZ/2; //(mountZ-mountClampZ)/2;
 
 ringScrewHoleDia = 3.4;
 ringScrewHoleX = 19;
