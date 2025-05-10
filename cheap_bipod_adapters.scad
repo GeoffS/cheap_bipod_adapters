@@ -22,16 +22,19 @@ layerThickness = 0.2;
 
 recessAdjX = 2;
 
+mountClampOffsetFromFrontZ = 33;
+mountClampOffsetFromRearZ = 26;
+
 mountOD = 41.0;
 mountCZ = 3.955;
-mountZ = 63 + 2*mountCZ;
+mountZ = mountClampOffsetFromFrontZ + mountClampOffsetFromRearZ + 2*mountCZ;
 echo(str("mountZ = ", mountZ));
 
 mountClampX = 2.5 + recessAdjX;
 mountClampY = 17.5; //8; //7;
 mountClampZ = mountZ + 2; //11;
 
-mountClampCtrPosZ = mountZ/2; //(mountZ-mountClampZ)/2;
+mountClampCtrPosZ = mountClampOffsetFromRearZ; //mountZ/2; //(mountZ-mountClampZ)/2;
 
 ringScrewHoleDia = 3.4;
 ringScrewHoleX = 19;
@@ -188,7 +191,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
 	
