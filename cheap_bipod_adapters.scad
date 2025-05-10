@@ -76,9 +76,6 @@ module mountExterior()
 		{
 			simpleChamferedCylinderDoubleEnded(d=mountOD, h=mountZ, cz=mountCZ);
 
-			// Take the sharp edge off the clamp recess:
-			// tcu([mountOD/2-2.2, -200, -200], 400);
-
 			// Barrel groove:
 			barrelGrooveDia = 40;
 			translate([0, 0, -100]) difference()
@@ -143,7 +140,7 @@ module mountExterior()
 
 			// Nut driver/socket recess:
 			ringScrewHoleZ = 30;
-			translate([-ringScrewHoleX+7-ringScrewHoleZ+ringShiftX, 0, 0]) rotate([0,90,0]) translate([0,0,ringScrewHoleZ-20]) hull()
+			translate([-ringScrewHoleX+7.8-ringScrewHoleZ+ringShiftX, 0, 0]) rotate([0,90,0]) translate([0,0,ringScrewHoleZ-20]) hull()
 			{
 				cylinder(d=m3NutDriverOD, h=20);
 				x = m3NutDriverOD + 0.5;
@@ -192,7 +189,7 @@ module torusSlot(insideDiameter, outsideShift, circleDiameter)
 module clip(d=0)
 {
 	// tc([-200, -400-d, -10], 400);
-	// tcu([-200, -200, mountClampCtrPosZ-nothing], 400);
+	// tcu([-200, -200, mountClampCtrPosZ-nothing-d], 400);
 	// tcu([-200, -200, mountClampCtrPosZ-400+nothing], 400);
 	// tcu([-200, -200, -nothing], 400);
 	
